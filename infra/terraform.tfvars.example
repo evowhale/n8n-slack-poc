@@ -1,0 +1,5 @@
+# 복사해서 terraform.tfvars로 만들고 값을 채우세요
+# cp terraform.tfvars.example terraform.tfvars
+
+key_name = "your-aws-key-pair-name"  # AWS에 등록된 키 페어 이름
+my_ip    = "123.456.789.0/32"        # 내 공인 IP (https://checkip.amazonaws.com 에서 확인)

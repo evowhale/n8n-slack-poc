@@ -128,7 +128,25 @@ REPO_NAME=$(basename "${git_repo_url}" .git)
 su - ubuntu -c "chmod +x ~/clap/$REPO_NAME/scripts/claude-slack-runner.sh 2>/dev/null || true"
 
 # =========================
-# 8. SSH 비밀번호 인증 활성화
+# 8. 코드 자동 동기화 (cron)
+# =========================
+# 5분마다 git pull로 최신 코드를 반영합니다.
+# 개발자가 push하면 최대 5분 후에 EC2에도 반영됩니다.
+REPO_NAME=$(basename "${git_repo_url}" .git)
+cat > /home/ubuntu/sync-repo.sh << 'SYNC'
+#!/bin/bash
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+cd ~/clap/$(ls ~/clap/) && git pull --ff-only 2>&1 | logger -t repo-sync
+SYNC
+chmod +x /home/ubuntu/sync-repo.sh
+chown ubuntu:ubuntu /home/ubuntu/sync-repo.sh
+
+# crontab에 5분마다 실행 등록
+su - ubuntu -c '(crontab -l 2>/dev/null; echo "*/5 * * * * /home/ubuntu/sync-repo.sh") | crontab -'
+
+# =========================
+# 9. SSH 비밀번호 인증 활성화
 # =========================
 # n8n Docker 컨테이너에서 호스트(EC2)로 SSH 접속할 때 비밀번호 인증이 필요합니다.
 # (Docker 내부에는 SSH 키가 없으므로)

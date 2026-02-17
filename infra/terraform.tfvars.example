@@ -1,5 +1,23 @@
-# 복사해서 terraform.tfvars로 만들고 값을 채우세요
-# cp terraform.tfvars.example terraform.tfvars
+# =============================================================================
+# terraform.tfvars.example — 변수 값 예시 파일
+# =============================================================================
+# 이 파일은 예시(example)이므로 Terraform이 자동으로 읽지 않습니다.
+# 실제 사용하려면 아래 명령으로 복사한 후 값을 수정하세요:
+#
+#   cp terraform.tfvars.example terraform.tfvars
+#
+# terraform.tfvars 파일은 terraform apply 실행 시 자동으로 읽힙니다.
+# 주의: terraform.tfvars에는 실제 IP 등 민감 정보가 포함되므로 .gitignore에 추가하세요.
+# =============================================================================
 
-key_name = "your-aws-key-pair-name"  # AWS에 등록된 키 페어 이름
-my_ip    = "123.456.789.0/32"        # 내 공인 IP (https://checkip.amazonaws.com 에서 확인)
+key_name = "your-aws-key-pair-name"  # AWS 콘솔 > EC2 > 키 페어에서 생성한 키 페어의 이름
+                                     # (파일명이 아닌 이름만! 예: "my-key"이면 my-key.pem 파일과 매핑)
+
+my_ip    = "123.456.789.0/32"        # 내 공인 IP를 CIDR 형식으로 입력
+                                     # 확인 방법: 브라우저에서 https://checkip.amazonaws.com 접속
+                                     # 예: IP가 1.2.3.4이면 → "1.2.3.4/32"로 입력
+                                     # /32 = 이 IP 하나만 허용한다는 뜻
+
+# (선택) private repo clone용 — public repo만 쓰면 아래 두 줄은 생략 가능
+# github_token = "ghp_xxxxxxxxxxxx"  # GitHub > Settings > Developer settings > Personal access tokens
+# git_repo_url = "https://github.com/dwhale-dev/clap-server.git"

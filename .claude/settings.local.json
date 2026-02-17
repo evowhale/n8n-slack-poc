@@ -1,0 +1,9 @@
+{
+  "enabledMcpjsonServers": [
+    "slack",
+    "github",
+    "notion",
+    "datadog"
+  ],
+  "enableAllProjectMcpServers": true
+}
